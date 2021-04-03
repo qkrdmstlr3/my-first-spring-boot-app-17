@@ -14,4 +14,12 @@ public class DogRepository {
         dogs.add(dog);
     }
 
+    public Dog getDogByOwnerName(String ownerName) {
+        for(Dog dog: dogs) {
+            if(dog.getOwnerName().equals(ownerName)) {
+                return dog;
+            }
+        }
+        return null;
+    }
 }

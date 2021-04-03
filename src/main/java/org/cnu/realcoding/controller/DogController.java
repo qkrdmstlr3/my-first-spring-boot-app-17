@@ -16,6 +16,11 @@ public class DogController {
         dogService.insertDog(dog);
     }
 
+    @GetMapping("/dog/ownerName/{ownerName}")
+    public Dog getDogByOwnerName(@PathVariable String ownerName) {
+        return dogService.getDogByOwnerName(ownerName);
+    }
+
 }
 
 // api > controller > service > repository

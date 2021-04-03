@@ -18,5 +18,12 @@ public class DogService {
         dogRepository.insertDog(dog);
     }
 
+    public Dog getDogByOwnerName(String ownerName) {
+        Dog dog = dogRepository.getDogByOwnerName(ownerName);
+        if(dog == null) {
+            throw new DogNotFoundException("HTTP STATUS : 404");
+        }
+        return dog;
+    }
 
 }
