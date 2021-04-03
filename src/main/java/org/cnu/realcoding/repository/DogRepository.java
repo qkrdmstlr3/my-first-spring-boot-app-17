@@ -24,4 +24,18 @@ public class DogRepository {
     }
 
     /* 수정 */
+    public Dog modifyWithAddingDogRecord(String name, List<String> newRecords) {
+        for(Dog dog: dogs) {
+            if(dog.getName().equals(name)) {
+                List<String> oldRecords = dog.getMedicalRecords();
+                List<String> records = new ArrayList<>();
+                records.addAll(oldRecords);
+                records.addAll(newRecords);
+
+                dog.setMedicalRecords(records);
+                return dog;
+            }
+        }
+        return null;
+    }
 }

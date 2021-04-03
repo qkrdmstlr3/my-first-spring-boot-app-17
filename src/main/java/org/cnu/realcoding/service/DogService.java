@@ -7,6 +7,8 @@ import org.cnu.realcoding.repository.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DogService {
 
@@ -28,4 +30,11 @@ public class DogService {
     }
 
     /* 수정 */
+    public Dog modifyWithAddingDogRecord(String name, List<String> newRecords) {
+        Dog dog = dogRepository.modifyWithAddingDogRecord(name, newRecords);
+        if(dog == null) {
+            throw new DogNotFoundException();
+        }
+        return dog;
+    }
 }
