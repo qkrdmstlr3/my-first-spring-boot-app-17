@@ -22,4 +22,14 @@ public class DogRepository {
         }
         return null;
     }
+
+    public boolean modifyDogKind(String name, String kind) {
+        for(Dog dog: dogs) {
+            if(dog.getName().equals(name)) {
+                dog.setKind(kind);
+                return true;
+            }
+        }
+        return false;
+    }
 }

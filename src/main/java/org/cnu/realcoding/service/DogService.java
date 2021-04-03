@@ -26,4 +26,11 @@ public class DogService {
         return dog;
     }
 
+    public void modifyDogKind(String name, String kind) {
+        if(!dogRepository.modifyDogKind(name, kind))
+        {
+            throw new DogNotFoundException("HTTP STATUS : 404");
+
+        }
+    }
 }

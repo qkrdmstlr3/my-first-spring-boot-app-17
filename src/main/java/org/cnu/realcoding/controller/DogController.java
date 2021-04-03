@@ -21,6 +21,10 @@ public class DogController {
         return dogService.getDogByOwnerName(ownerName);
     }
 
+    @PatchMapping("/dog/kind/name/{name}")
+    public void modifyDogKind(@PathVariable String name, @RequestBody Dog dog) {
+        dogService.modifyDogKind(name, dog.getKind());
+    }
 }
 
 // api > controller > service > repository
