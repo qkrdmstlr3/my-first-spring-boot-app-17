@@ -13,4 +13,5 @@ public class DogRepository {
     public void insertDog(Dog dog) {
         dogs.add(dog);
     }
+
 }
