@@ -10,7 +10,18 @@ import java.util.List;
 public class DogRepository {
     private List<Dog> dogs = new ArrayList<>();
 
+    /* 삽입 */
     public void insertDog(Dog dog) {
         dogs.add(dog);
     }
+
+    /* 조회 */
+    public Dog getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
+        return dogs.stream()
+                .filter(dog -> dog.getOwnerPhoneNumber().equals(ownerPhoneNumber))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /* 수정 */
 }
