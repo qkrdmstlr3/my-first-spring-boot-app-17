@@ -1,4 +1,4 @@
-package org.cnu.realcoding.exeption;
+package org.cnu.realcoding.exception;
 
 
 import org.springframework.http.HttpStatus;
