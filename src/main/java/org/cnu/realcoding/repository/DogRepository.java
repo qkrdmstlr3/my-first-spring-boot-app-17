@@ -10,7 +10,29 @@ import java.util.List;
 public class DogRepository {
     private List<Dog> dogs = new ArrayList<>();
 
-    public void insertDog(Dog dog) {
+    public void insertDog(Dog dog)
+    {
         dogs.add(dog);
     }
+
+    public Dog getDogByThreeParams(String name, String ownername, String ownerphonenumber)
+    {
+
+        for(Dog dog : dogs )
+            if(dog.getName().equals(name))
+            {
+                if(dog.getOwnerName().equals(ownername))
+                {
+                     if(dog.getOwnerPhoneNumber().equals(ownerphonenumber))
+                        return dog;
+                }
+
+            }
+        return null;
+
+
+    }
+
+
+
 }
