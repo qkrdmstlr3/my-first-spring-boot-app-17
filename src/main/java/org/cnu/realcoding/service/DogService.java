@@ -26,11 +26,15 @@ public class DogService {
         return dog;
     }
 
-    public void modifyDogKind(String name, String kind) {
-        if(!dogRepository.modifyDogKind(name, kind))
+    public Dog modifyDogKind(String name, String kind) {
+        Dog tmpDog = dogRepository.modifyDogKind(name, kind);
+        if(tmpDog == null)
         {
             throw new DogNotFoundException("HTTP STATUS : 404");
-
+        }
+        else
+        {
+            return tmpDog;
         }
     }
 }

@@ -22,8 +22,8 @@ public class DogController {
     }
 
     @PatchMapping("/dogs/kind/name/{name}")
-    public void modifyDogKind(@PathVariable String name, @RequestBody Dog dog) {
-        dogService.modifyDogKind(name, dog.getKind());
+    public Dog modifyDogKind(@PathVariable String name, @RequestBody Dog dog) {
+        return dogService.modifyDogKind(name, dog.getKind());
     }
 }
 
