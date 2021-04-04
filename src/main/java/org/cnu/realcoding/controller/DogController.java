@@ -17,6 +17,10 @@ public class DogController {
     public void createDog(@RequestBody Dog dog) {
         dogService.insertDog(dog);
     }
+
+
+    //세 가지 파라미터 모두 받기
+
 }
 
 // api > controller > service > repository
