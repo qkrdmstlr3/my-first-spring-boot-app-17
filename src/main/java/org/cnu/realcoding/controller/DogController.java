@@ -16,12 +16,12 @@ public class DogController {
         dogService.insertDog(dog);
     }
 
-    @GetMapping("/dog/ownerName/{ownerName}")
+    @GetMapping("/dogs/ownerName/{ownerName}")
     public Dog getDogByOwnerName(@PathVariable String ownerName) {
         return dogService.getDogByOwnerName(ownerName);
     }
 
-    @PatchMapping("/dog/kind/name/{name}")
+    @PatchMapping("/dogs/kind/name/{name}")
     public void modifyDogKind(@PathVariable String name, @RequestBody Dog dog) {
         dogService.modifyDogKind(name, dog.getKind());
     }
