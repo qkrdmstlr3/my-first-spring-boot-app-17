@@ -12,19 +12,19 @@ public class DogController {
     private DogService dogService;
 
     /* 삽입 */
-    @PostMapping("/dog")
+    @PostMapping("/dogs")
     public void createDog(@RequestBody Dog dog) {
         dogService.insertDog(dog);
     }
 
     /* 조회 */
-    @GetMapping("/dog/ownerPhoneNumber/{ownerPhoneNumber}")
+    @GetMapping("/dogs/ownerPhoneNumber/{ownerPhoneNumber}")
     public Dog getDogByOwnerPhoneNumber(@PathVariable String ownerPhoneNumber) {
         return dogService.getDogByOwnerPhoneNumber(ownerPhoneNumber);
     }
 
     /* 수정 */
-    @PatchMapping("/dog/records/name/{name}")
+    @PatchMapping("/dogs/records/name/{name}")
     public Dog modifyWithAddingDogRecord(@PathVariable String name, @RequestBody Dog dog) {
         return dogService.modifyWithAddingDogRecord(name, dog.getMedicalRecords());
     }
