@@ -15,6 +15,7 @@ public class DogRepository {
         dogs.add(dog);
     }
 
+<<<<<<< Updated upstream
     public Dog getDogByThreeParams(String name, String ownername, String ownerphonenumber)
     {
 
@@ -27,6 +28,21 @@ public class DogRepository {
                         return dog;
                 }
 
+=======
+
+    public Dog getDogByThreeParams(String name, String ownername, String ownerphonenumber)
+    {
+
+        for(Dog dog : dogs )
+            if(dog.getName().equals(name))
+            {
+                if(dog.getOwnerName().equals(ownername))
+                {
+                    if(dog.getOwnerPhoneNumber().equals(ownerphonenumber))
+                        return dog;
+                }
+
+>>>>>>> Stashed changes
             }
         return null;
 
