@@ -5,6 +5,8 @@ import org.cnu.realcoding.service.DogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class DogController {
 
@@ -19,7 +21,7 @@ public class DogController {
 
     /* 조회 */
     @GetMapping("/dogs/ownerPhoneNumber/{ownerPhoneNumber}")
-    public Dog getDogByOwnerPhoneNumber(@PathVariable String ownerPhoneNumber) {
+    public List<Dog> getDogByOwnerPhoneNumber(@PathVariable String ownerPhoneNumber) {
         return dogService.getDogByOwnerPhoneNumber(ownerPhoneNumber);
     }
 

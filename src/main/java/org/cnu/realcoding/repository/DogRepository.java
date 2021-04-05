@@ -18,13 +18,24 @@ public class DogRepository {
     private MongoTemplate mongoTemplate;
 
     /* 삽입 */
-    public void insertDog(Dog dog) {
-        mongoTemplate.insert(dog);
+    public Boolean insertDog(Dog dog) {
+        Query query = new Query().addCriteria(
+                Criteria.where("name").is(dog.getName())
+                        .and("ownerName").is(dog.getOwnerName())
+                        .and("ownerPhoneNumber").is(dog.getOwnerPhoneNumber())
+        );
+
+        Boolean dogExists = mongoTemplate.findOne(query, Dog.class) != null;
+        if (!dogExists) {
+            mongoTemplate.insert(dog);
+            return true;
+        }
+        return false;
     }
 
     /* 조회 */
-    public Dog getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
-        return mongoTemplate.findOne(
+    public List<Dog> getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
+        return mongoTemplate.find(
                 Query.query(Criteria.where("ownerPhoneNumber").is(ownerPhoneNumber)),
                 Dog.class
         );
