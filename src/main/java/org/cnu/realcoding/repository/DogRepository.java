@@ -1,6 +1,10 @@
 package org.cnu.realcoding.repository;
 
 import org.cnu.realcoding.domain.Dog;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,17 +14,20 @@ import java.util.List;
 public class DogRepository {
     private List<Dog> dogs = new ArrayList<>();
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
     /* 삽입 */
     public void insertDog(Dog dog) {
-        dogs.add(dog);
+        mongoTemplate.insert(dog);
     }
 
     /* 조회 */
     public Dog getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
-        return dogs.stream()
-                .filter(dog -> dog.getOwnerPhoneNumber().equals(ownerPhoneNumber))
-                .findFirst()
-                .orElse(null);
+        return mongoTemplate.findOne(
+                Query.query(Criteria.where("ownerPhoneNumber").is(ownerPhoneNumber)),
+                Dog.class
+        );
     }
 
     /* 수정 */
