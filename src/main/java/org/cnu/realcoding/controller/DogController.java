@@ -11,7 +11,6 @@ public class DogController {
     @Autowired
     private DogService dogService;
 
-    @PostMapping("/dog")
     @PostMapping("/dogs")
     public void createDog(@RequestBody Dog dog) {
         dogService.insertDog(dog);
