@@ -26,9 +26,14 @@ public class DogController {
     }
 
     /* 수정 */
-    @PatchMapping("/dogs/records/name/{name}")
-    public Dog modifyWithAddingDogRecord(@PathVariable String name, @RequestBody Dog dog) {
-        return dogService.modifyWithAddingDogRecord(name, dog.getMedicalRecords());
+    @PatchMapping("/dogs/records/name/{name}/ownerName/{ownerName}/ownerPhoneNumber/{ownerPhoneNumber}")
+    public Dog modifyWithAddingDogRecord(
+            @PathVariable String name,
+            @PathVariable String ownerName,
+            @PathVariable String ownerPhoneNumber,
+            @RequestBody Dog dog
+    ) {
+        return dogService.modifyWithAddingDogRecord(name, ownerName, ownerPhoneNumber, dog.getMedicalRecords());
     }
 }
 

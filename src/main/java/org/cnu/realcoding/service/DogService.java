@@ -33,8 +33,13 @@ public class DogService {
     }
 
     /* 수정 */
-    public Dog modifyWithAddingDogRecord(String name, List<String> newRecords) {
-        Dog dog = dogRepository.modifyWithAddingDogRecord(name, newRecords);
+    public Dog modifyWithAddingDogRecord(
+            String name,
+            String ownerName,
+            String ownerPhoneNumber,
+            List<String> newRecords
+    ) {
+        Dog dog = dogRepository.modifyWithAddingDogRecord(name, ownerName, ownerPhoneNumber, newRecords);
         if(dog == null) {
             throw new DogNotFoundException();
         }

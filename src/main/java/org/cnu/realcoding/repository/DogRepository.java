@@ -1,6 +1,5 @@
 package org.cnu.realcoding.repository;
 
-import com.mongodb.client.result.UpdateResult;
 import org.cnu.realcoding.domain.Dog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -42,8 +41,12 @@ public class DogRepository {
     }
 
     /* 수정 */
-    public Dog modifyWithAddingDogRecord(String name, List<String> newRecords) {
-        Query query = new Query().addCriteria(Criteria.where("name").is(name));
+    public Dog modifyWithAddingDogRecord(String name, String ownerName, String ownerPhoneNumber, List<String> newRecords) {
+        Query query = new Query().addCriteria(
+                Criteria.where("name").is(name)
+                        .and("ownerName").is(ownerName)
+                        .and("ownerPhoneNumber").is(ownerPhoneNumber)
+        );
         Update update = new Update().push("medicalRecords").each(newRecords);
         return mongoTemplate.findAndModify(query, update, Dog.class);
     }
