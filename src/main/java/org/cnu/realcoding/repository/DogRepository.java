@@ -18,7 +18,7 @@ public class DogRepository {
 
     /* 삽입 */
     public Boolean insertDog(Dog dog) {
-        Query query = new Query().addCriteria(
+        Query query = new Query(
                 Criteria.where("name").is(dog.getName())
                         .and("ownerName").is(dog.getOwnerName())
                         .and("ownerPhoneNumber").is(dog.getOwnerPhoneNumber())
