@@ -24,7 +24,7 @@ public class DogRepository {
                         .and("ownerPhoneNumber").is(dog.getOwnerPhoneNumber())
         );
 
-        Boolean dogExists = mongoTemplate.findOne(query, Dog.class) != null;
+        boolean dogExists = mongoTemplate.findOne(query, Dog.class) != null;
         if (!dogExists) {
             mongoTemplate.insert(dog);
             return true;
@@ -41,7 +41,7 @@ public class DogRepository {
     }
 
     public Dog modifyWithAll(Dog dog, Dog modifyDog) {
-        Boolean isMedicalRecordsAuthorized = modifyDog.getMedicalRecords() == null || Arrays.equals(modifyDog.getMedicalRecords().toArray(), dog.getMedicalRecords().toArray());
+        boolean isMedicalRecordsAuthorized = modifyDog.getMedicalRecords() == null || Arrays.equals(modifyDog.getMedicalRecords().toArray(), dog.getMedicalRecords().toArray());
         if(isMedicalRecordsAuthorized){
             String name = dog.getName();
             String ownerName = dog.getOwnerName();
@@ -69,8 +69,6 @@ public class DogRepository {
             if(kind != null) {
                 update.set("kind", kind);
             }
-            update.set("new", true);
-            //FindAndModifyOptions options = new FindAndModifyOptions().returnNew(true);
             return mongoTemplate.findAndModify(query, update, Dog.class);
         }
         return null;
