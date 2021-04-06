@@ -12,9 +12,11 @@ import java.util.List;
 
 @Repository
 public class DogRepository {
-    @Autowired
-    MongoTemplate mongoTemplate;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
+    /* 생성 */
     public Boolean insertDog(Dog dog) {
         Query query = new Query(
                 Criteria.where("name").is(dog.getName())
@@ -30,6 +32,8 @@ public class DogRepository {
         return false;
     }
 
+
+    /* 조회 */
     public List<Dog> getDogByOwnerName(String ownerName) {
         return mongoTemplate.find(
                 Query.query(Criteria.where("ownerName").is(ownerName)),
@@ -37,6 +41,14 @@ public class DogRepository {
         );
     }
 
+    public List<Dog> getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
+        return mongoTemplate.find(
+                Query.query(Criteria.where("ownerPhoneNumber").is(ownerPhoneNumber)),
+                Dog.class
+        );
+    }
+
+    /* 수정 */
     public Dog modifyDogKind(String name, String ownerName, String ownerPhoneNumber, String kind) {
 
         Query query = new Query(Criteria.where("name").is(name)
@@ -47,6 +59,14 @@ public class DogRepository {
         Update update = Update.update("kind", kind);
 
         mongoTemplate.updateFirst(query, update, Dog.class);
+    }
+  
+    public Dog modifyWithAddingDogRecord(String name, String ownerName, String ownerPhoneNumber, List<String> newRecords) {
+        Query query = new Query(Criteria.where("name").is(name)
+                .and("ownerName").is(ownerName)
+                .and("ownerPhoneNumber").is(ownerPhoneNumber)
+        );
+        Update update = new Update().push("medicalRecords").each(newRecords);
         return mongoTemplate.findAndModify(query, update, Dog.class);
     }
 }
