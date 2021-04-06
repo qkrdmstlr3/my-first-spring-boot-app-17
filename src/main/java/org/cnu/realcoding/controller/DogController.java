@@ -18,8 +18,9 @@ public class DogController {
 
 
 
-    @GetMapping("/dogs")
-    public Dog getDogByThreeParams(@RequestParam(value="name") String name, @RequestParam(value="ownername")String ownername, @RequestParam(value="ownerphonenumber") String ownerphonenumber)
+    @GetMapping("/dogs/all/{name}/{ownername}/{ownerphonenumber}")
+   // public Dog getDogByThreeParams(@RequestParam(value="name") String name, @RequestParam(value="ownername")String ownername, @RequestParam(value="ownerphonenumber") String ownerphonenumber)
+    public Dog getDogByThreeParams( @PathVariable("name")String name, @PathVariable("ownername")String ownername,  @PathVariable("ownerphonenumber")String ownerphonenumber)
     {
         return dogService.getDogByThreeParams(name, ownername, ownerphonenumber); // service에서 작동
     }
