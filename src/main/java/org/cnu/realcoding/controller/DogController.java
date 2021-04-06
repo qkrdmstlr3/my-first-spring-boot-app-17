@@ -18,14 +18,23 @@ public class DogController {
     public void createDog(@RequestBody Dog dog) {
         dogService.insertDog(dog);
     }
-
+  
     /* 조회 */
     @GetMapping("/dogs/ownerPhoneNumber/{ownerPhoneNumber}")
     public List<Dog> getDogByOwnerPhoneNumber(@PathVariable String ownerPhoneNumber) {
         return dogService.getDogByOwnerPhoneNumber(ownerPhoneNumber);
     }
 
+    @GetMapping("/dogs/ownerName/{ownerName}")
+    public List<Dog> getDogByOwnerName(@PathVariable String ownerName) {
+        return dogService.getDogByOwnerName(ownerName);
+    }
+
     /* 수정 */
+    @PatchMapping("/dogs/records/name/{name}/ownerName/{ownerName}/ownerPhoneNumber/{ownerPhoneNumber}")
+    public Dog modifyDogKind( @PathVariable String name,@PathVariable String ownerName,@PathVariable String ownerPhoneNumber,@RequestBody Dog dog) {
+        return dogService.modifyDogKind(name, ownerName, ownerPhoneNumber, dog.getKind());
+  
     @PatchMapping("/dogs/records/name/{name}/ownerName/{ownerName}/ownerPhoneNumber/{ownerPhoneNumber}")
     public Dog modifyWithAddingDogRecord(
             @PathVariable String name,
