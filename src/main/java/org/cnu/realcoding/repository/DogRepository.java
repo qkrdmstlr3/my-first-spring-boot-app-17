@@ -56,6 +56,18 @@ public class DogRepository {
                         Dog.class
                         );
     }
+    public Dog getDogByThreeParams(String name, String ownername, String ownerphonenumber)
+    {
+        //return mongoTemplate.findOne(Query.query(Criteria.where("name").is(name)), Dog.class);
+        if((mongoTemplate.findOne(Query.query(  Criteria.where("name").is(name)  ), Dog.class) !=null))
+            if((mongoTemplate.findOne(Query.query(  Criteria.where("ownerName").is(ownername)  ), Dog.class) !=null) )
+                if((mongoTemplate.findOne(Query.query(  Criteria.where("ownerPhoneNumber").is(ownerphonenumber)  ), Dog.class) !=null))
+                 return mongoTemplate.findOne(Query.query(Criteria.where("name").is(name)), Dog.class);
+
+
+
+        return null;
+    }
 
     /* 수정 */
     public Dog modifyDogKind(String name, String ownerName, String ownerPhoneNumber, String kind) {
