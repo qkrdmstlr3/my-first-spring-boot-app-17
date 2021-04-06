@@ -1,41 +1,53 @@
 package org.cnu.realcoding.repository;
 
 import org.cnu.realcoding.domain.Dog;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class DogRepository {
-    private List<Dog> dogs = new ArrayList<>();
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     /* 삽입 */
-    public void insertDog(Dog dog) {
-        dogs.add(dog);
+    public Boolean insertDog(Dog dog) {
+        Query query = new Query(
+                Criteria.where("name").is(dog.getName())
+                        .and("ownerName").is(dog.getOwnerName())
+                        .and("ownerPhoneNumber").is(dog.getOwnerPhoneNumber())
+        );
+
+        Boolean dogExists = mongoTemplate.findOne(query, Dog.class) != null;
+        if (!dogExists) {
+            mongoTemplate.insert(dog);
+            return true;
+        }
+        return false;
     }
 
     /* 조회 */
-    public Dog getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
-        return dogs.stream()
-                .filter(dog -> dog.getOwnerPhoneNumber().equals(ownerPhoneNumber))
-                .findFirst()
-                .orElse(null);
+    public List<Dog> getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
+        return mongoTemplate.find(
+                Query.query(Criteria.where("ownerPhoneNumber").is(ownerPhoneNumber)),
+                Dog.class
+        );
     }
 
     /* 수정 */
-    public Dog modifyWithAddingDogRecord(String name, List<String> newRecords) {
-        for(Dog dog: dogs) {
-            if(dog.getName().equals(name)) {
-                List<String> oldRecords = dog.getMedicalRecords();
-                List<String> records = new ArrayList<>();
-                records.addAll(oldRecords);
-                records.addAll(newRecords);
-
-                dog.setMedicalRecords(records);
-                return dog;
-            }
-        }
-        return null;
+    public Dog modifyWithAddingDogRecord(String name, String ownerName, String ownerPhoneNumber, List<String> newRecords) {
+        Query query = new Query().addCriteria(
+                Criteria.where("name").is(name)
+                        .and("ownerName").is(ownerName)
+                        .and("ownerPhoneNumber").is(ownerPhoneNumber)
+        );
+        Update update = new Update().push("medicalRecords").each(newRecords);
+        return mongoTemplate.findAndModify(query, update, Dog.class);
     }
 }
