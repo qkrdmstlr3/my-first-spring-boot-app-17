@@ -6,6 +6,7 @@ import org.cnu.realcoding.repository.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.cnu.realcoding.exception.DogNotFoundException;
+import org.cnu.realcoding.exception.DogConflictException;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class DogService {
 
         boolean isInserted = dogRepository.insertDog(dog);
         if(isInserted==false) {
-            throw new DogNotFoundException();
+            throw new DogConflictException();
         }
     }
 
