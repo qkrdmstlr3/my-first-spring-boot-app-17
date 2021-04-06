@@ -44,7 +44,7 @@ public class DogController {
     }
 
     /* 수정 */
-    @PatchMapping("/dogs/records/name/{name}/ownerName/{ownerName}/ownerPhoneNumber/{ownerPhoneNumber}")
+    @PatchMapping("/dogs/kind/name/{name}/ownerName/{ownerName}/ownerPhoneNumber/{ownerPhoneNumber}")
     public Dog modifyDogKind( @PathVariable String name,@PathVariable String ownerName,@PathVariable String ownerPhoneNumber,@RequestBody Dog dog) {
         return dogService.modifyDogKind(name, ownerName, ownerPhoneNumber, dog.getKind());
     }

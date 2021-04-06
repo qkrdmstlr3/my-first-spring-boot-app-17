@@ -2,12 +2,12 @@ package org.cnu.realcoding.service;
 
 
 import org.cnu.realcoding.domain.Dog;
+import org.cnu.realcoding.exception.DogConflictException;
 import org.cnu.realcoding.exception.DogForbiddenException;
 import org.cnu.realcoding.exception.DogNotFoundException;
 import org.cnu.realcoding.repository.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -28,16 +28,34 @@ public class DogService {
     /* 조회 */
     public List<Dog> getDogByOwnerName(String ownerName) {
         List<Dog> dogs = dogRepository.getDogByOwnerName(ownerName);
-        if(dogs == null) {
+        if(dogs.size() == 0) {
             throw new DogNotFoundException("HTTP STATUS : 404");
         }
+        return dogs;
     }
     public List<Dog> getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
         List<Dog> dogs = dogRepository.getDogByOwnerPhoneNumber(ownerPhoneNumber);
-        if(dogs == null) {
+        if(dogs.size() == 0) {
             throw new DogNotFoundException();
         }
         return dogs;
+    }
+    public List<Dog> getDogByDogName(String name){
+        List <Dog> dog = dogRepository.getDogByDogName(name);
+        if(dog.size() == 0){
+            throw new DogNotFoundException();
+        }
+        return dog;
+    }
+
+    public Dog getDogByThreeParams(String name, String ownername, String ownerphonenumber) {
+
+        Dog foundDog = dogRepository.getDogByThreeParams(name, ownername, ownerphonenumber);
+
+        if (foundDog == null)
+            throw new org.cnu.realcoding.exception.DogNotFoundException();
+        else
+            return foundDog;
     }
 
     /* 수정 */
@@ -65,13 +83,6 @@ public class DogService {
         }
         return dog;
     }
-    public List<Dog> getDogByDogName(String name){
-        List <Dog> dog = dogRepository.getDogByDogName(name);
-        if(dog == null){
-            throw new DogNotFoundException();
-        }
-        return dog;
-    }
 
     public Dog modifyWithAll(String[] oldDog, Dog modifyDog) {
         String name = oldDog[0];
@@ -87,16 +98,6 @@ public class DogService {
         return dog;
     }
 
-
-    public Dog getDogByThreeParams(String name, String ownername, String ownerphonenumber) {
-
-        Dog foundDog = dogRepository.getDogByThreeParams(name, ownername, ownerphonenumber);
-
-        if (foundDog == null)
-            throw new org.cnu.realcoding.exception.DogNotFoundException();
-        else
-            return foundDog;
-    }
 }
 
 

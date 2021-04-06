@@ -79,7 +79,7 @@ public class DogRepository {
 
         Update update = Update.update("kind", kind);
 
-        mongoTemplate.updateFirst(query, update, Dog.class);
+        return mongoTemplate.findAndModify(query, update, Dog.class);
     }
   
     public Dog modifyWithAddingDogRecord(String name, String ownerName, String ownerPhoneNumber, List<String> newRecords) {
