@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.cnu.realcoding.exception.DogNotFoundException;
 
+import java.util.List;
+
 @Service
 public class DogService {
 
@@ -15,19 +17,22 @@ public class DogService {
 
     public void insertDog(Dog dog) {
 
-        dogRepository.insertDog(dog);
+        boolean isInserted = dogRepository.insertDog(dog);
+        if(isInserted==false) {
+            throw new DogNotFoundException();
+        }
     }
 
-    public Dog getDogByOwnerName(String ownerName) {
-        Dog dog = dogRepository.getDogByOwnerName(ownerName);
-        if(dog == null) {
+    public List<Dog> getDogByOwnerName(String ownerName) {
+        List<Dog> dogs = dogRepository.getDogByOwnerName(ownerName);
+        if(dogs == null) {
             throw new DogNotFoundException("HTTP STATUS : 404");
         }
-        return dog;
+        return dogs;
     }
 
-    public Dog modifyDogKind(String name, String kind) {
-        Dog tmpDog = dogRepository.modifyDogKind(name, kind);
+    public Dog modifyDogKind(String name, String ownerName, String ownerPhoneNumber, String kind) {
+        Dog tmpDog = dogRepository.modifyDogKind(name, ownerName, ownerPhoneNumber, kind);
         if(tmpDog == null)
         {
             throw new DogNotFoundException("HTTP STATUS : 404");
