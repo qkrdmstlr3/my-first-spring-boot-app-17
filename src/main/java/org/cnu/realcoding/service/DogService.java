@@ -2,6 +2,7 @@ package org.cnu.realcoding.service;
 
 
 import org.cnu.realcoding.domain.Dog;
+import org.cnu.realcoding.exception.DogConflictException;
 import org.cnu.realcoding.exception.DogForbiddenException;
 import org.cnu.realcoding.exception.DogNotFoundException;
 import org.cnu.realcoding.repository.DogRepository;
@@ -26,12 +27,13 @@ public class DogService {
     }
 
     /* 조회 */
+    /*
     public List<Dog> getDogByOwnerName(String ownerName) {
         List<Dog> dogs = dogRepository.getDogByOwnerName(ownerName);
         if(dogs == null) {
             throw new DogNotFoundException("HTTP STATUS : 404");
         }
-    }
+    }*/
     public List<Dog> getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
         List<Dog> dogs = dogRepository.getDogByOwnerPhoneNumber(ownerPhoneNumber);
         if(dogs == null) {
@@ -41,6 +43,7 @@ public class DogService {
     }
 
     /* 수정 */
+    /*
     public Dog modifyDogKind(String name, String ownerName, String ownerPhoneNumber, String kind) {
         Dog tmpDog = dogRepository.modifyDogKind(name, ownerName, ownerPhoneNumber, kind);
         if(tmpDog == null)
@@ -52,7 +55,7 @@ public class DogService {
             return tmpDog;
         }
     }
-  
+  */
     public Dog modifyWithAddingDogRecord(
             String name,
             String ownerName,
