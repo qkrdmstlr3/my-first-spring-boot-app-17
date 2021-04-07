@@ -1,6 +1,7 @@
 package org.cnu.realcoding.repository;
 
 import org.cnu.realcoding.domain.Dog;
+import org.cnu.realcoding.exception.DogConflictException;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,16 +110,27 @@ public class DogRepository {
             Update update = new Update();
             if(name != null) {
                 update.set("name", name);
+            }else{
+                name = dog.getName();
             }
             if(ownerName != null) {
                 update.set("ownerName", ownerName);
+            }else{
+                ownerName = dog.getOwnerName();
             }
             if(ownerPhoneNumber != null) {
                 update.set("ownerPhoneNumber", ownerPhoneNumber);
+            }else{
+                ownerPhoneNumber = dog.getOwnerPhoneNumber();
             }
             if(kind != null) {
                 update.set("kind", kind);
             }
+
+            if(getDogByThreeParams(name, ownerName, ownerPhoneNumber) != null){
+                throw new DogConflictException();
+            }
+
             return mongoTemplate.findAndModify(query, update, Dog.class);
         }
         return null;
