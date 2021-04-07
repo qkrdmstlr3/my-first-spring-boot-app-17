@@ -8,7 +8,6 @@ import org.cnu.realcoding.exception.DogNotFoundException;
 import org.cnu.realcoding.repository.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -27,23 +26,41 @@ public class DogService {
     }
 
     /* 조회 */
-    /*
     public List<Dog> getDogByOwnerName(String ownerName) {
         List<Dog> dogs = dogRepository.getDogByOwnerName(ownerName);
-        if(dogs == null) {
+        if(dogs.size() == 0) {
             throw new DogNotFoundException("HTTP STATUS : 404");
-        }
-    }*/
-    public List<Dog> getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
-        List<Dog> dogs = dogRepository.getDogByOwnerPhoneNumber(ownerPhoneNumber);
-        if(dogs == null) {
-            throw new DogNotFoundException();
         }
         return dogs;
     }
 
+    public List<Dog> getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
+        List<Dog> dogs = dogRepository.getDogByOwnerPhoneNumber(ownerPhoneNumber);
+        if(dogs.size() == 0) {
+            throw new DogNotFoundException();
+        }
+        return dogs;
+    }
+  
+    public List<Dog> getDogByDogName(String name){
+        List <Dog> dog = dogRepository.getDogByDogName(name);
+        if(dog.size() == 0){
+            throw new DogNotFoundException();
+        }
+        return dog;
+    }
+
+    public Dog getDogByThreeParams(String name, String ownername, String ownerphonenumber) {
+
+        Dog foundDog = dogRepository.getDogByThreeParams(name, ownername, ownerphonenumber);
+
+        if (foundDog == null)
+            throw new org.cnu.realcoding.exception.DogNotFoundException();
+        else
+            return foundDog;
+    }
+
     /* 수정 */
-    /*
     public Dog modifyDogKind(String name, String ownerName, String ownerPhoneNumber, String kind) {
         Dog tmpDog = dogRepository.modifyDogKind(name, ownerName, ownerPhoneNumber, kind);
         if(tmpDog == null)
@@ -55,7 +72,7 @@ public class DogService {
             return tmpDog;
         }
     }
-  */
+  
     public Dog modifyWithAddingDogRecord(
             String name,
             String ownerName,
@@ -64,13 +81,6 @@ public class DogService {
     ) {
         Dog dog = dogRepository.modifyWithAddingDogRecord(name, ownerName, ownerPhoneNumber, newRecords);
         if(dog == null) {
-            throw new DogNotFoundException();
-        }
-        return dog;
-    }
-    public List<Dog> getDogByDogName(String name){
-        List <Dog> dog = dogRepository.getDogByDogName(name);
-        if(dog == null){
             throw new DogNotFoundException();
         }
         return dog;
@@ -88,17 +98,6 @@ public class DogService {
             throw new DogForbiddenException();
         }
         return dog;
-    }
-
-
-    public Dog getDogByThreeParams(String name, String ownername, String ownerphonenumber) {
-
-        Dog foundDog = dogRepository.getDogByThreeParams(name, ownername, ownerphonenumber);
-
-        if (foundDog == null)
-            throw new org.cnu.realcoding.exception.DogNotFoundException();
-        else
-            return foundDog;
     }
 }
 

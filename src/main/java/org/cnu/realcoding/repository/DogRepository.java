@@ -1,6 +1,7 @@
 package org.cnu.realcoding.repository;
 
 import org.cnu.realcoding.domain.Dog;
+import org.cnu.realcoding.exception.DogConflictException;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class DogRepository {
                         .and("ownerPhoneNumber").is(dog.getOwnerPhoneNumber())
         );
 
-        Boolean dogExists = mongoTemplate.findOne(query, Dog.class) != null;
+        boolean dogExists = mongoTemplate.findOne(query, Dog.class) != null;
         if (!dogExists) {
             mongoTemplate.insert(dog);
             return true;
@@ -73,7 +74,7 @@ public class DogRepository {
 
         Update update = Update.update("kind", kind);
 
-        mongoTemplate.updateFirst(query, update, Dog.class);
+        return mongoTemplate.findAndModify(query, update, Dog.class);
     }
   
     public Dog modifyWithAddingDogRecord(String name, String ownerName, String ownerPhoneNumber, List<String> newRecords) {
@@ -85,7 +86,7 @@ public class DogRepository {
         return mongoTemplate.findAndModify(query, update, Dog.class);
     }
     public Dog modifyWithAll(Dog dog, Dog modifyDog) {
-        Boolean isMedicalRecordsAuthorized = modifyDog.getMedicalRecords() == null || Arrays.equals(modifyDog.getMedicalRecords().toArray(), dog.getMedicalRecords().toArray());
+        boolean isMedicalRecordsAuthorized = modifyDog.getMedicalRecords() == null || Arrays.equals(modifyDog.getMedicalRecords().toArray(), dog.getMedicalRecords().toArray());
         if(isMedicalRecordsAuthorized){
             String name = dog.getName();
             String ownerName = dog.getOwnerName();
@@ -103,18 +104,27 @@ public class DogRepository {
             Update update = new Update();
             if(name != null) {
                 update.set("name", name);
+            }else{
+                name = dog.getName();
             }
             if(ownerName != null) {
                 update.set("ownerName", ownerName);
+            }else{
+                ownerName = dog.getOwnerName();
             }
             if(ownerPhoneNumber != null) {
                 update.set("ownerPhoneNumber", ownerPhoneNumber);
+            }else{
+                ownerPhoneNumber = dog.getOwnerPhoneNumber();
             }
             if(kind != null) {
                 update.set("kind", kind);
             }
-            update.set("new", true);
-            //FindAndModifyOptions options = new FindAndModifyOptions().returnNew(true);
+
+            if(getDogByThreeParams(name, ownerName, ownerPhoneNumber) != null){
+                throw new DogConflictException();
+            }
+
             return mongoTemplate.findAndModify(query, update, Dog.class);
         }
         return null;
