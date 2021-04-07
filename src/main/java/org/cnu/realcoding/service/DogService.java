@@ -41,24 +41,7 @@ public class DogService {
         }
         return dogs;
     }
-    public List<Dog> getDogByDogName(String name){
-        List <Dog> dog = dogRepository.getDogByDogName(name);
-        if(dog.size() == 0){
-            throw new DogNotFoundException();
-        }
-        return dog;
-    }
-
-    public Dog getDogByThreeParams(String name, String ownername, String ownerphonenumber) {
-
-        Dog foundDog = dogRepository.getDogByThreeParams(name, ownername, ownerphonenumber);
-
-        if (foundDog == null)
-            throw new org.cnu.realcoding.exception.DogNotFoundException();
-        else
-            return foundDog;
-    }
-
+  
     public List<Dog> getDogByDogName(String name){
         List <Dog> dog = dogRepository.getDogByDogName(name);
         if(dog.size() == 0){

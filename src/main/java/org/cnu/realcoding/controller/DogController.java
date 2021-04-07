@@ -30,7 +30,7 @@ public class DogController {
     public List<Dog> getDogByOwnerName(@PathVariable String ownerName) {
         return dogService.getDogByOwnerName(ownerName);
     }
-  
+
     @GetMapping("/dogs/name/{name}")
     public List<Dog> getDogByDogName(@PathVariable String name) {
         return dogService.getDogByDogName(name);
